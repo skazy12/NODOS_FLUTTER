@@ -44,21 +44,33 @@ class _HomeState extends State<Home> {
                       40,
                       Color.fromARGB(255, random.nextInt(255),
                           random.nextInt(255), random.nextInt(255))));
-                  //Si hay más de un nodo, se crea una linea entre este y los demás
-                  if (nodos.length > 1) {
-                    nodos.forEach((nodo) {
-                      if (nodo.nombre != "${nodos.length}") {
-                        lineas.add(ModeloLinea(
-                          nodos[nodos.length - 1].x,
-                          nodos[nodos.length - 1].y,
-                          nodo.x,
-                          nodo.y,
-                          //Se le asigna la distancia entre los nodos con 2 decimales
-                          "${(sqrt(pow(nodos[nodos.length - 1].x - nodo.x, 2) + pow(nodos[nodos.length - 1].y - nodo.y, 2))).toStringAsFixed(2)}",
-                        ));
-                      }
-                    });
-                  }
+                  //Si hay más de un nodo, se crea una linea entre el primer y ultimo
+                  // if (nodos.length > 1) {
+                  //   lineas.add(ModeloLinea(
+                  //     nodos[nodos.length - 2].x,
+                  //     nodos[nodos.length - 2].y,
+                  //     nodos[nodos.length - 1].x,
+                  //     nodos[nodos.length - 1].y,
+                  //     //Se le asigna la distancia entre los nodos con 2 decimales
+                  //     "${(sqrt(pow(nodos[nodos.length - 2].x - nodos[nodos.length - 1].x, 2) + pow(nodos[nodos.length - 2].y - nodos[nodos.length - 1].y, 2))).toStringAsFixed(2)}",
+                  //   )
+                  //   );
+                  // }
+
+                  // if (nodos.length > 1) {
+                  //   nodos.forEach((nodo) {
+                  //     if (nodo.nombre != "${nodos.length}") {
+                  //       lineas.add(ModeloLinea(
+                  //         nodos[nodos.length - 1].x,
+                  //         nodos[nodos.length - 1].y,
+                  //         nodo.x,
+                  //         nodo.y,
+                  //         //Se le asigna la distancia entre los nodos con 2 decimales
+                  //         "${(sqrt(pow(nodos[nodos.length - 1].x - nodo.x, 2) + pow(nodos[nodos.length - 1].y - nodo.y, 2))).toStringAsFixed(2)}",
+                  //       ));
+                  //     }
+                  //   });
+                  // }
                 }
 
                 if (modo == 3) {
@@ -169,6 +181,34 @@ class _HomeState extends State<Home> {
                     });
                   } catch (e) {}
                 }
+                if (modo == 6) {
+                  //Se genera una linea entre los nodos que se toquen
+                  try {
+                    nodos.forEach((nodo) {
+                      if (sqrt(pow(nodo.x - ubi.globalPosition.dx, 2) +
+                              pow(nodo.y - ubi.globalPosition.dy, 2)) <
+                          nodo.radio) {
+                        contadorClicks++;
+                        if (contadorClicks == 1) {
+                          nodoSeleccionado1 = nodo;
+                        } else if (contadorClicks == 2) {
+                          nodoSeleccionado2 = nodo;
+                          print(
+                              "Nodo 1: ${nodoSeleccionado1!.nombre} Nodo 2: ${nodoSeleccionado2!.nombre}");
+                          //generar la linea entre los nodos seleccionados y agregarla a la lista de lineas
+                          lineas.add(ModeloLinea(
+                            nodos[nodos.indexOf(nodoSeleccionado1!)].x,
+                            nodos[nodos.indexOf(nodoSeleccionado1!)].y,
+                            nodos[nodos.indexOf(nodoSeleccionado2!)].x,
+                            nodos[nodos.indexOf(nodoSeleccionado2!)].y,
+                            "0",
+                          ));
+                          contadorClicks = 0;
+                        }
+                      }
+                    });
+                  } catch (e) {}
+                }
               });
             },
           ),
@@ -203,7 +243,6 @@ class _HomeState extends State<Home> {
                     }
                   });
                   //moviendo linea
-
                 }
               });
             },
@@ -264,6 +303,16 @@ class _HomeState extends State<Home> {
               icon: Icon(Icons.calculate),
               iconSize: 40,
               tooltip: 'Calcular ruta entre nodos',
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  modo = 6;
+                });
+              },
+              icon: Icon(Icons.add_circle),
+              iconSize: 40,
+              tooltip: 'Conectar nodos',
             ),
           ],
         ),
