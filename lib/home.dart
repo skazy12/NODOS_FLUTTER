@@ -93,36 +93,54 @@ class _HomeState extends State<Home> {
                   } catch (e) {}
                 }
                 if (modo == 4) {
-                  //Se le pone un peso a la linea que se toque
                   try {
-                    lineas.forEach((linea) {
-                      if (sqrt(pow(linea.x1 - ubi.globalPosition.dx, 2) +
-                                  pow(linea.y1 - ubi.globalPosition.dy, 2)) <
-                              20 ||
-                          sqrt(pow(linea.x2 - ubi.globalPosition.dx, 2) +
-                                  pow(linea.y2 - ubi.globalPosition.dy, 2)) <
-                              20) {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(
-                                    "Peso de la linea actual ${linea.peso}"),
-                                content: TextField(
-                                  keyboardType: TextInputType.number,
-                                  onChanged: (valor) {
-                                    linea.peso = double.parse(valor);
-                                  },
-                                ),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("Aceptar"))
-                                ],
-                              );
-                            });
+                    nodos.forEach((nodo) {
+                      if (sqrt(pow(nodo.x - ubi.globalPosition.dx, 2) +
+                              pow(nodo.y - ubi.globalPosition.dy, 2)) <
+                          nodo.radio) {
+                        if (contadorClicks == 0) {
+                          nodoSeleccionado1 = nodo;
+                          contadorClicks++;
+                        } else if (contadorClicks == 1) {
+                          nodoSeleccionado2 = nodo;
+                          contadorClicks = 0;
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text("Ingrese el peso"),
+                                  content: TextField(
+                                    onChanged: (value) {
+                                      lineas.forEach((linea) {
+                                        if (linea.x1 == nodoSeleccionado1!.x &&
+                                                linea.y1 ==
+                                                    nodoSeleccionado1!.y &&
+                                                linea.x2 ==
+                                                    nodoSeleccionado2!.x &&
+                                                linea.y2 ==
+                                                    nodoSeleccionado2!.y ||
+                                            linea.x1 == nodoSeleccionado2!.x &&
+                                                linea.y1 ==
+                                                    nodoSeleccionado2!.y &&
+                                                linea.x2 ==
+                                                    nodoSeleccionado1!.x &&
+                                                linea.y2 ==
+                                                    nodoSeleccionado1!.y) {
+                                          linea.peso = double.parse(value);
+                                        }
+                                      });
+                                    },
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("Aceptar"))
+                                  ],
+                                );
+                              });
+                        }
                       }
                     });
                   } catch (e) {}
