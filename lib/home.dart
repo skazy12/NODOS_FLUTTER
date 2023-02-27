@@ -21,6 +21,89 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
+      appBar: AppBar(title: Text('Grafos'), actions: [
+        IconButton(
+          icon: Icon(Icons.help),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('HELP'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.add),
+                        label: Text(
+                            'Agregar nodo, permite agregar nodos en la parte de la pantalla en la que se presiona'),
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.black)),
+                      ),
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.edit),
+                        label: Text(
+                            'Mover nodo, permite cambiar la posicion de los nodos arrastrandolos'),
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.black)),
+                      ),
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.delete),
+                        label: Text(
+                            'Eliminar nodo, permite eliminar el nodo que se presiona'),
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.black)),
+                      ),
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.edit_attributes),
+                        label: Text(
+                            'Insertar pesos, permite cambiar insertar o cambiar el valor de los pesos'),
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.black)),
+                      ),
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.calculate),
+                        label: Text(
+                            'Calcular ruta entre nodos, permite calcular la ruta de los nodos'),
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.black)),
+                      ),
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.add_circle),
+                        label: Text(
+                            'Conectar nodos, permite hacer la coneccion entre nodos, presionando sobre el origen y destino'),
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.black)),
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      child: Text('Cerrar'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
+      ]),
       body: Stack(
         children: [
           CustomPaint(
@@ -268,7 +351,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Color.fromARGB(255, 37, 15, 136),
+        color: Color.fromARGB(255, 63, 146, 219),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
