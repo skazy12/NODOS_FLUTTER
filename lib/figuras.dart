@@ -19,7 +19,7 @@ class Nodos extends CustomPainter {
           text: nodo.nombre,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 25,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),

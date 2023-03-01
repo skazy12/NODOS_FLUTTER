@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
                   nodos.add(ModeloNodo(
                       ubi.globalPosition.dx,
                       ubi.globalPosition.dy,
-                      "${nodos.length + 1}",
+                      "",
                       40,
                       Color.fromARGB(255, random.nextInt(255),
                           random.nextInt(255), random.nextInt(255))));
@@ -168,9 +168,9 @@ class _HomeState extends State<Home> {
                             linea.x1 == nodo.x && linea.y1 == nodo.y ||
                             linea.x2 == nodo.x && linea.y2 == nodo.y);
                         //Se actualizan los nombres de los nodos
-                        for (int i = 0; i < nodos.length; i++) {
-                          nodos[i].nombre = "${i + 1}";
-                        }
+                        //for (int i = 0; i < nodos.length; i++) {
+                        //  nodos[i].nombre = "${i + 1}";
+                        //}
                       }
                     });
                   } catch (e) {}
@@ -310,6 +310,35 @@ class _HomeState extends State<Home> {
                     });
                   } catch (e) {}
                 }
+                if (modo == 7) {
+                  try {
+                    nodos.forEach((nodo) {
+                      if (sqrt(pow(nodo.x - ubi.globalPosition.dx, 2) +
+                              pow(nodo.y - ubi.globalPosition.dy, 2)) <
+                          nodo.radio) {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Ingrese el nombre del nodo"),
+                                content: TextField(
+                                  onChanged: (value) {
+                                    nodo.nombre = value;
+                                  },
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Aceptar"))
+                                ],
+                              );
+                            });
+                      }
+                    });
+                  } catch (e) {}
+                }
               });
             },
           ),
@@ -411,9 +440,19 @@ class _HomeState extends State<Home> {
                   modo = 6;
                 });
               },
-              icon: Icon(Icons.add_circle),
+              icon: Icon(Icons.ads_click),
               iconSize: 40,
               tooltip: 'Conectar nodos',
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  modo = 7;
+                });
+              },
+              icon: Icon(Icons.generating_tokens_outlined),
+              iconSize: 40,
+              tooltip: 'Cambiar nombre de nodos',
             ),
           ],
         ),
